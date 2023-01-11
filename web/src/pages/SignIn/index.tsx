@@ -1,8 +1,3 @@
-// export function SignIn() {
-//   return <div>Formulário de login aqui</div>;
-// }
-
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -11,12 +6,29 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import logoImage from "../../../public/logo_share_energy.png";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
+import { createTheme } from "@mui/material/styles";
+
+import logoImage from "/logo_share_energy.png";
+import { SignInCredentials } from "../../types/session";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import { signInService } from "../../services/sessions";
+import { TonalitySharp } from "@mui/icons-material";
+import { useAuth } from "../../hooks/useAuth";
+
+const LOGIN_VALIDATION = Yup.object().shape({
+  username: Yup.string()
+    .required("Tap your username")
+    .min(6, "Tap a username larger then 6 characters"),
+  password: Yup.string().required("Tap your password"),
+  isRemember: Yup.boolean().nullable(),
+});
 
 function Copyright(props: any) {
   return (
@@ -39,14 +51,33 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export function SignIn() {
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const { signIn } = useAuth();
+
+  const handleSignIn = async (values: SignInCredentials) => {
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      username: values.username,
+      password: values.password,
+      isRemember: values.isRemember,
     });
+
+    try {
+      await signIn(values);
+    } catch (err: any) {
+      // toast.show(err, {severity: "error"});
+      alert(err);
+    }
   };
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+      isRemember: false,
+    },
+    validationSchema: LOGIN_VALIDATION,
+    validateOnChange: false,
+    onSubmit: handleSignIn,
+  });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,33 +90,35 @@ export function SignIn() {
           alignItems: "center",
         }}
       >
-        <Box
-        // sx={{
-        //   width: "50px",
-        // }}
-        >
-          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}> */}
-          {/* <LockOutlinedIcon /> */}
-          <img
-            src={logoImage}
-            alt="Logo da aplicação"
-            style={{ width: "250px" }}
-          />
-          {/* </Avatar> */}
-        </Box>
+        <img
+          src={logoImage}
+          alt="Logo da aplicação"
+          style={{ width: "250px" }}
+        />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={formik.handleSubmit}
+          noValidate
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
+            value={formik.values.username}
+            onChange={({ target }) => {
+              formik.setFieldValue("username", target.value);
+            }}
+            error={!!formik.errors.username}
+            helperText={!!formik.errors.username && formik.errors.username}
           />
           <TextField
             margin="normal"
@@ -96,11 +129,33 @@ export function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={formik.values.password}
+            onChange={({ target }) => {
+              formik.setFieldValue("password", target.value);
+            }}
+            error={!!formik.errors.password}
+            helperText={!!formik.errors.password && formik.errors.password}
           />
+          {/* <FormControl
+            required
+            component="fieldset"
+            variant="standard"
+            error={!!formik.errors.isRemember}
+          > */}
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
+            checked={formik.values.isRemember}
+            onChange={({ target }: React.SyntheticEvent) => {
+              const value = target as HTMLInputElement;
+
+              formik.setFieldValue("isRemember", value.checked);
+            }}
           />
+          {/* <FormHelperText>
+              {!!formik.errors.isRemember && formik.errors.isRemember}
+            </FormHelperText> */}
+          {/* </FormControl> */}
           <Button
             type="submit"
             fullWidth
@@ -111,12 +166,20 @@ export function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link
+                href="#"
+                variant="body2"
+                onClick={() => alert("This feature doesn't work yet")}
+              >
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link
+                href="#"
+                variant="body2"
+                onClick={() => alert("This feature doesn't work yet")}
+              >
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -3,6 +3,7 @@ import { SignInCredentials } from "../types/session";
 export const signInService = async ({
   username,
   password,
+  isRemember,
 }: SignInCredentials): Promise<{
   username: string;
   password: string;
