@@ -1,0 +1,20 @@
+import { SignInCredentials } from "../types/session";
+
+export const signInService = async ({
+  username,
+  password,
+}: SignInCredentials): Promise<{
+  username: string;
+  password: string;
+  isAdmin: boolean;
+}> => {
+  if (username !== "desafiosharenergy" || password !== "sh@r3n3rgy") {
+    throw new Error("The user doesnt exists");
+  }
+
+  return {
+    username: "desafiosharenergy",
+    password: "sh@r3n3rgy",
+    isAdmin: true,
+  };
+};
