@@ -3,8 +3,9 @@
 --> LOGIN
   [] - O usuário deve ser capaz de se autenticar com LOGIN -> desafiosharenergy e SENHA -> sh@r3n3rgy
     [] - Utilizar JWT
-    [] - Manter sessão no LocalStorage
-    [] - Croar botão "remember me" para login automático
+    [X] - Manter sessão no LocalStorage
+    [] - Criar botão "remember me" para login automático
+      <!-- [] - Gerar um hash da senha, salvar no localStorage e quando "remember me" estiver true, traduzir o hash e colocar no campo de senha -->
 
 --> TELA HOME
   [] - Deve haver um navbar com as opções das outras 3 telas

@@ -6,7 +6,6 @@ export const signInService = async ({
   isRemember,
 }: SignInCredentials): Promise<{
   username: string;
-  password: string;
   isAdmin: boolean;
 }> => {
   if (username !== "desafiosharenergy" || password !== "sh@r3n3rgy") {
@@ -15,7 +14,7 @@ export const signInService = async ({
 
   return {
     username: "desafiosharenergy",
-    password: "sh@r3n3rgy",
+    // password: "sh@r3n3rgy",
     isAdmin: true,
   };
 };

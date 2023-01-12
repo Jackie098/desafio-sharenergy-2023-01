@@ -14,6 +14,7 @@ export const PRIMARY = "#00A2A2";
 export const LIGHT_GREEN_100 = "#1CA698";
 export const LIGHT_GREEN_200 = "#00A2A2";
 
+export const GREEN_100 = "#fafbe9";
 export const GREEN_500 = "#D3D929";
 export const GREEN_700 = "#8C8851";
 
