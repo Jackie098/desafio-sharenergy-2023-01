@@ -11,8 +11,9 @@ export function Content({ children }: ContentProps) {
   return (
     <Box
       sx={{
-        maxWidth: "850px",
-        // margin: theme.spacing(4, 0, 4, 0),
+        margin: theme.spacing(2, 0),
+        width: "100%",
+        maxWidth: "800px",
       }}
     >
       {children}

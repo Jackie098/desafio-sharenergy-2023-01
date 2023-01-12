@@ -15,7 +15,16 @@ export function Header({ children }: HeaderProps) {
   const theme = useTheme();
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        // justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Box
         display="flex"
         alignItems="center"

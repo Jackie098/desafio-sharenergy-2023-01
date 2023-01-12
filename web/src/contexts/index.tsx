@@ -1,4 +1,6 @@
 import { ThemeProvider } from "@mui/material";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "../services/queryClient";
 import { configureDesignSystem } from "../theme/designSystem";
 import { AuthProvider } from "./Auth";
 
@@ -8,8 +10,10 @@ type AppProviderProps = {
 
 export function AppProvider({ children }: AppProviderProps) {
   return (
-    <ThemeProvider theme={configureDesignSystem}>
-      <AuthProvider>{children}</AuthProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={configureDesignSystem}>
+        <AuthProvider>{children}</AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
