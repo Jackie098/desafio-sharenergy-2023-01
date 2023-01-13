@@ -1,20 +1,48 @@
 import Box from "@mui/material/Box";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { Search } from "../../components/Search";
 import { listUsers } from "../../services/users";
 import { CardUser } from "./components/CardUser";
 
-export function Home() {
-  const { data: queryUsers } = useQuery("listUsers", async () => {
-    return listUsers();
-  });
+import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@mui/material";
+import { RandomUser } from "../../types/user";
 
-  const users = useMemo(() => {
+export function Home() {
+  const [page, setPage] = useState(1);
+  const [users, setUsers] = useState<RandomUser[]>();
+
+  const { data: queryUsers, isLoading } = useQuery(
+    ["listUsers", page],
+    async () => {
+      const updatedUsers = await listUsers(page);
+
+      setUsers((previousUsers) => {
+        if (previousUsers !== undefined) {
+          return [...previousUsers!, ...updatedUsers.results];
+        } else {
+          return updatedUsers.results;
+        }
+      });
+
+      return updatedUsers;
+    },
+    {
+      keepPreviousData: true,
+    }
+  );
+
+  const usersByPage = useMemo(() => {
     return queryUsers?.results;
   }, [queryUsers]);
 
-  console.log("home - users", users);
+  if (
+    isLoading === true ||
+    (usersByPage === undefined && users?.length === 0)
+  ) {
+    return <CircularProgress size={24} />;
+  }
 
   return (
     <Box>
@@ -28,9 +56,24 @@ export function Home() {
           columnGap: "8px",
         }}
       >
-        {users?.map((user) => (
-          <CardUser key={user.email} userDetails={user} />
-        ))}
+        <InfiniteScroll
+          initialScrollY={0}
+          dataLength={users!.length}
+          next={() => {
+            // queryUsers!.info.page + 1;
+            setPage((previous) => previous + 1);
+          }}
+          hasMore={true}
+          loader={<CircularProgress size={30} />}
+          scrollThreshold={1}
+          style={{
+            overflow: "hidden",
+          }}
+        >
+          {users?.map((user) => (
+            <CardUser key={user.email} userDetails={user} />
+          ))}
+        </InfiniteScroll>
       </Box>
     </Box>
   );
