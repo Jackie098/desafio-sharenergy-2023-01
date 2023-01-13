@@ -48,33 +48,33 @@ export function Home() {
     <Box>
       <Search type="user" />
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          rowGap: "16px",
-          columnGap: "8px",
+      <InfiniteScroll
+        initialScrollY={0}
+        dataLength={users!.length}
+        next={() => {
+          // queryUsers!.info.page + 1;
+          setPage((previous) => previous + 1);
+        }}
+        hasMore={true}
+        loader={<CircularProgress size={30} />}
+        scrollThreshold={1}
+        style={{
+          overflow: "hidden",
         }}
       >
-        <InfiniteScroll
-          initialScrollY={0}
-          dataLength={users!.length}
-          next={() => {
-            // queryUsers!.info.page + 1;
-            setPage((previous) => previous + 1);
-          }}
-          hasMore={true}
-          loader={<CircularProgress size={30} />}
-          scrollThreshold={1}
-          style={{
-            overflow: "hidden",
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            rowGap: "16px",
+            columnGap: "8px",
           }}
         >
           {users?.map((user) => (
             <CardUser key={user.email} userDetails={user} />
           ))}
-        </InfiniteScroll>
-      </Box>
+        </Box>
+      </InfiniteScroll>
     </Box>
   );
 }
