@@ -8,6 +8,7 @@ import { CardUser } from "./components/CardUser";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@mui/material";
 import { RandomUser } from "../../types/user";
+import { ListUsers } from "./components/ListUsers";
 
 export function Home() {
   const [page, setPage] = useState(1);
@@ -41,40 +42,18 @@ export function Home() {
     isLoading === true ||
     (usersByPage === undefined && users?.length === 0)
   ) {
-    return <CircularProgress size={24} />;
+    return (
+      <Box display={"flex"} justifyContent={"center"}>
+        <CircularProgress size={24} />
+      </Box>
+    );
   }
 
   return (
     <Box>
+      //TODO: Search between all of loaded users
       <Search type="user" />
-
-      <InfiniteScroll
-        initialScrollY={0}
-        dataLength={users!.length}
-        next={() => {
-          // queryUsers!.info.page + 1;
-          setPage((previous) => previous + 1);
-        }}
-        hasMore={true}
-        loader={<CircularProgress size={30} />}
-        scrollThreshold={1}
-        style={{
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            rowGap: "16px",
-            columnGap: "8px",
-          }}
-        >
-          {users?.map((user) => (
-            <CardUser key={user.email} userDetails={user} />
-          ))}
-        </Box>
-      </InfiniteScroll>
+      <ListUsers users={users!} setPage={setPage} />
     </Box>
   );
 }
