@@ -22,7 +22,7 @@ const filterAttributes = [
 
 export const listUsers = async (
   page = 1,
-  results = 10
+  results = 20
 ): Promise<ResultRandomUserApi> => {
   const params = { page, results, inc: filterAttributes.join() };
 
