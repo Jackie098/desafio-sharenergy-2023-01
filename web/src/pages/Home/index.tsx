@@ -11,7 +11,7 @@ export function Home() {
   });
 
   const users = useMemo(() => {
-    return queryUsers;
+    return queryUsers?.results;
   }, [queryUsers]);
 
   console.log("home - users", users);
@@ -20,7 +20,9 @@ export function Home() {
     <Box>
       <Search type="user" />
 
-      <CardUser key={1} />
+      {users?.map((user) => (
+        <CardUser key={user.email} userDetails={user} />
+      ))}
     </Box>
   );
 }

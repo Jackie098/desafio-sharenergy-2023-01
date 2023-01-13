@@ -23,3 +23,6 @@ export const YELLOW_700 = "#F2D64B";
 
 export const ORANGE_500 = "#F2A341";
 export const ORANGE_600 = "#F27E7E";
+
+export const BLUE_500 = "#00b7d2";
+export const PINK_500 = "#cb91b5";

@@ -21,6 +21,8 @@ export type Picture = {
   thumbnail: string;
 };
 
+export type Gender = "male" | "female";
+
 export type RandomUser = {
   name: {
     first: string;
@@ -35,6 +37,6 @@ export type RandomUser = {
   };
   email: string;
   cell: string;
-  gender: string;
+  gender: Gender;
   picture: Picture;
 };
