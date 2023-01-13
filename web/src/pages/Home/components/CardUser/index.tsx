@@ -10,7 +10,6 @@ import MaleIcon from "@mui/icons-material/Male";
 import { RandomUser } from "../../../../types/user";
 import {
   BLUE_500,
-  GREEN_100,
   GREEN_500,
   PINK_500,
   PRIMARY,
@@ -24,7 +23,7 @@ export function CardUser({
   userDetails: { login, name, picture, registered, email, cell, gender },
 }: CardUserProps) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: "100%", maxWidth: 300 }}>
       <CardActionArea>
         <CardMedia
           component="img"

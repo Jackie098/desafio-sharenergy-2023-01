@@ -20,9 +20,18 @@ export function Home() {
     <Box>
       <Search type="user" />
 
-      {users?.map((user) => (
-        <CardUser key={user.email} userDetails={user} />
-      ))}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          rowGap: "16px",
+          columnGap: "8px",
+        }}
+      >
+        {users?.map((user) => (
+          <CardUser key={user.email} userDetails={user} />
+        ))}
+      </Box>
     </Box>
   );
 }

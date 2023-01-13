@@ -17,7 +17,7 @@ export function Header({ children }: HeaderProps) {
   return (
     <Container
       component="main"
-      maxWidth="md"
+      maxWidth="lg"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -31,7 +31,7 @@ export function Header({ children }: HeaderProps) {
         justifyContent="space-between"
         width="100%"
         height={"75px"}
-        maxWidth={"850px"}
+        maxWidth={"950px"}
         sx={{
           padding: theme.spacing(0, 2, 0, 2),
         }}

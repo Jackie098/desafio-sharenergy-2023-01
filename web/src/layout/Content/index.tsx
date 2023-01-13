@@ -13,7 +13,7 @@ export function Content({ children }: ContentProps) {
       sx={{
         margin: theme.spacing(2, 0),
         width: "100%",
-        maxWidth: "800px",
+        maxWidth: "80%",
       }}
     >
       {children}
