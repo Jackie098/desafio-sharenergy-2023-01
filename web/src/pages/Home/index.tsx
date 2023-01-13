@@ -3,9 +3,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { Search } from "../../components/Search";
 import { listUsers } from "../../services/users";
-import { CardUser } from "./components/CardUser";
 
-import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@mui/material";
 import { RandomUser } from "../../types/user";
 import { ListUsers } from "./components/ListUsers";
@@ -51,8 +49,8 @@ export function Home() {
 
   return (
     <Box>
-      //TODO: Search between all of loaded users
-      <Search type="user" />
+      <Search type="user" users={users!} setUsers={setUsers} />
+
       <ListUsers users={users!} setPage={setPage} />
     </Box>
   );
