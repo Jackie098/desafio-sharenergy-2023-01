@@ -8,10 +8,12 @@ type SearchType = "user" | "cat" | "client";
 type SearchProps = {
   type: SearchType;
   users: RandomUser[];
-  setUsers: React.Dispatch<React.SetStateAction<RandomUser[] | undefined>>;
+  setFilteredUsers: React.Dispatch<
+    React.SetStateAction<RandomUser[] | undefined>
+  >;
 };
 
-export function Search({ type, users, setUsers }: SearchProps) {
+export function Search({ type, users, setFilteredUsers }: SearchProps) {
   const textRef = useRef<HTMLInputElement>(null);
 
   const handleComparison = (
@@ -35,7 +37,7 @@ export function Search({ type, users, setUsers }: SearchProps) {
         return handleComparison(user, comparator);
       });
 
-      setUsers(filteredUsers);
+      setFilteredUsers(filteredUsers);
     }
   };
 

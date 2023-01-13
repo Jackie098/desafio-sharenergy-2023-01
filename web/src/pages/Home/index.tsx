@@ -10,14 +10,15 @@ import { ListUsers } from "./components/ListUsers";
 
 export function Home() {
   const [page, setPage] = useState(1);
-  const [users, setUsers] = useState<RandomUser[]>();
+  const [allUsers, setAllUsers] = useState<RandomUser[]>();
+  const [filteredUsers, setFilteredUsers] = useState<RandomUser[]>();
 
   const { data: queryUsers, isLoading } = useQuery(
     ["listUsers", page],
     async () => {
       const updatedUsers = await listUsers(page);
 
-      setUsers((previousUsers) => {
+      setAllUsers((previousUsers) => {
         if (previousUsers !== undefined) {
           return [...previousUsers!, ...updatedUsers.results];
         } else {
@@ -38,7 +39,7 @@ export function Home() {
 
   if (
     isLoading === true ||
-    (usersByPage === undefined && users?.length === 0)
+    (usersByPage === undefined && allUsers?.length === 0)
   ) {
     return (
       <Box display={"flex"} justifyContent={"center"}>
@@ -49,9 +50,13 @@ export function Home() {
 
   return (
     <Box>
-      <Search type="user" users={users!} setUsers={setUsers} />
+      <Search
+        type="user"
+        users={allUsers!}
+        setFilteredUsers={setFilteredUsers}
+      />
 
-      <ListUsers users={users!} setPage={setPage} />
+      <ListUsers users={filteredUsers || allUsers!} setPage={setPage} />
     </Box>
   );
 }
