@@ -53,6 +53,7 @@ export function Home() {
       <Search
         type="user"
         users={allUsers!}
+        setPage={setPage}
         setFilteredUsers={setFilteredUsers}
       />
 

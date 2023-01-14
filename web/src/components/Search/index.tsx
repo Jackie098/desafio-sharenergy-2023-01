@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useRef } from "react";
@@ -8,12 +9,18 @@ type SearchType = "user" | "cat" | "client";
 type SearchProps = {
   type: SearchType;
   users: RandomUser[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setFilteredUsers: React.Dispatch<
     React.SetStateAction<RandomUser[] | undefined>
   >;
 };
 
-export function Search({ type, users, setFilteredUsers }: SearchProps) {
+export function Search({
+  type,
+  users,
+  setPage,
+  setFilteredUsers,
+}: SearchProps) {
   const textRef = useRef<HTMLInputElement>(null);
 
   const handleComparison = (
@@ -31,7 +38,11 @@ export function Search({ type, users, setFilteredUsers }: SearchProps) {
   const submitForm = (event: any) => {
     event.preventDefault();
 
-    if (textRef.current != null || textRef.current !== "") {
+    if (textRef.current != null || textRef.current!.value !== "") {
+      // if (textRef.current.value !== "") {
+      //   setPage(1);
+      // }
+
       console.log(textRef.current!.value);
       const comparator = textRef.current!.value;
 
@@ -44,13 +55,13 @@ export function Search({ type, users, setFilteredUsers }: SearchProps) {
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <Box component="form" onSubmit={submitForm}>
       <TextField
         inputRef={textRef}
         variant="outlined"
         label="Who are you looking for?"
       />
       <Button type="submit">Search</Button>
-    </form>
+    </Box>
   );
 }

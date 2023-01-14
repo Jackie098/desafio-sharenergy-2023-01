@@ -1,6 +1,8 @@
 import { RandomUser } from "../types/user";
 import { randomUserApi } from "./api";
 
+export const LIMIT = 20;
+
 export type ResultRandomUserApi = {
   results: RandomUser[];
   info: {
@@ -22,7 +24,7 @@ const filterAttributes = [
 
 export const listUsers = async (
   page = 1,
-  results = 20
+  results = LIMIT
 ): Promise<ResultRandomUserApi> => {
   const params = { page, results, inc: filterAttributes.join() };
 

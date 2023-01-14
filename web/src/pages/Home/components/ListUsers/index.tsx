@@ -5,8 +5,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { RandomUser } from "../../../../types/user";
 import { GREEN_500 } from "../../../../utils/colors";
 import { CardUser } from "../CardUser";
-import { spacing } from "@mui/system";
 import { Typography } from "@mui/material";
+import { LIMIT } from "../../../../services/users";
 
 type ListUsersProps = {
   users: RandomUser[];
@@ -16,6 +16,9 @@ type ListUsersProps = {
 export function ListUsers({ users, setPage }: ListUsersProps) {
   const theme = useTheme();
 
+  console.log("listUser - users", users);
+  // console.log("listUser - setPage", setPage);
+
   return (
     <InfiniteScroll
       initialScrollY={0}
@@ -23,7 +26,7 @@ export function ListUsers({ users, setPage }: ListUsersProps) {
       next={() => {
         setPage((previous) => previous + 1);
       }}
-      hasMore={!(users.length < 20)}
+      hasMore={!(users.length < LIMIT)}
       loader={
         <Box display={"flex"} justifyContent={"center"}>
           <CircularProgress
@@ -32,7 +35,6 @@ export function ListUsers({ users, setPage }: ListUsersProps) {
           />
         </Box>
       }
-      scrollThreshold={1}
       endMessage={
         <Typography
           marginTop={2}
