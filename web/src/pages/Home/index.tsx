@@ -10,7 +10,7 @@ import { ListUsers } from "./components/ListUsers";
 
 export function Home() {
   const [page, setPage] = useState(1);
-  const [allUsers, setAllUsers] = useState<RandomUser[]>();
+  const [allUsers, setAllUsers] = useState<RandomUser[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<RandomUser[]>();
 
   const { data: queryUsers, isLoading } = useQuery(
