@@ -6,6 +6,7 @@ import { RandomUser } from "../../../../types/user";
 import { GREEN_500 } from "../../../../utils/colors";
 import { CardUser } from "../CardUser";
 import { spacing } from "@mui/system";
+import { Typography } from "@mui/material";
 
 type ListUsersProps = {
   users: RandomUser[];
@@ -22,7 +23,7 @@ export function ListUsers({ users, setPage }: ListUsersProps) {
       next={() => {
         setPage((previous) => previous + 1);
       }}
-      hasMore={true}
+      hasMore={!(users.length < 20)}
       loader={
         <Box display={"flex"} justifyContent={"center"}>
           <CircularProgress
@@ -32,6 +33,17 @@ export function ListUsers({ users, setPage }: ListUsersProps) {
         </Box>
       }
       scrollThreshold={1}
+      endMessage={
+        <Typography
+          marginTop={2}
+          display={"flex"}
+          justifyContent={"center"}
+          fontSize={20}
+          color={"text.secondary"}
+        >
+          {users.length} users found
+        </Typography>
+      }
       style={{
         overflow: "hidden",
         marginTop: "24px",
