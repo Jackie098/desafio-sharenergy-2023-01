@@ -28,7 +28,9 @@ export function Search({ type, users, setFilteredUsers }: SearchProps) {
     );
   };
 
-  const submitForm = () => {
+  const submitForm = (event: any) => {
+    event.preventDefault();
+
     if (textRef.current != null || textRef.current !== "") {
       console.log(textRef.current!.value);
       const comparator = textRef.current!.value;
@@ -43,7 +45,11 @@ export function Search({ type, users, setFilteredUsers }: SearchProps) {
 
   return (
     <form onSubmit={submitForm}>
-      <TextField inputRef={textRef} variant="outlined" label="Search" />
+      <TextField
+        inputRef={textRef}
+        variant="outlined"
+        label="Who are you looking for?"
+      />
       <Button type="submit">Search</Button>
     </form>
   );
