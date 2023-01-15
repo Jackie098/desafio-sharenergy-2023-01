@@ -9,5 +9,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     borderTop: `10px ${GREEN_500} solid`,
     borderRight: `10px ${PRIMARY} solid`,
     borderBottom: `10px ${PRIMARY} solid`,
+
+    width: "85%",
   },
 }));

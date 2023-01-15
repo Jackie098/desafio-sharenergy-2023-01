@@ -176,7 +176,7 @@ export function CatsCode() {
           justifyContent: "center",
           // maxWidth: "500px !important",
           width: "100%",
-          marginTop: "80px",
+          marginTop: "54px",
         }}
       >
         {renderImageCat()}
