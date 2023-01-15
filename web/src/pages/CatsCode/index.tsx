@@ -1,50 +1,44 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { findOneCat } from "../../services/cats";
-import download from "download";
 import WelcomeCat from "/welcome_cat.svg";
 import CatNotFound from "/cat_not_found.svg";
 import Typography from "@mui/material/Typography";
+// import Buffer from "buffer";
 
 export function CatsCode() {
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const textRef = useRef<HTMLInputElement>(null);
 
-  const test = async () => {
-    // const response = await download("https://http.cat/200");
-
-    console.log("response - test", "response");
-  };
-
   const {
     data: queryCat,
     isLoading,
     isError,
-  } = useQuery(
-    ["findOneCat", statusCode],
-    async () => {
-      const cat = await findOneCat(statusCode);
-
-      return cat;
+  } = useQuery(["findOneCat", statusCode], async () => {
+    if (statusCode == undefined) {
+      // throw new Error("StatusCode is null");
+      return;
     }
-    // {behavior:}
-  );
 
-  // const queryCat = async (statusCode: number) => {
-  //   // const result = await findOneCat(statusCode);
-  //   // const result = await fetch(`https://http.cat/${statusCode}`);
-  //   const result = fetch("https://http.cat/200")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data.file);
-  //     });
+    const { data: arrayBuffer } = await findOneCat(statusCode);
 
-  //   console.log("result", result);
-  // };
+    // console.log("queryCat - arrayBuffer", arrayBuffer);
+
+    // const convertedArrayBuffer = Buffer.from(response.data).toString("base64");
+
+    const arrayBufferView = new Uint8Array(arrayBuffer);
+    const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+    const urlCreator = window.URL || window.webkitURL;
+    const imageUrl = urlCreator.createObjectURL(blob);
+
+    console.log("imageUrl", imageUrl);
+
+    return imageUrl;
+  });
 
   const submitForm = (event: any) => {
     event.preventDefault();
@@ -60,6 +54,14 @@ export function CatsCode() {
     setStatusCode(null);
   };
 
+  const catLink = useMemo(() => {
+    if (queryCat != undefined) {
+      return queryCat;
+    }
+
+    // console.log("convertedArrayBuffer", convertedArrayBuffer);
+  }, [queryCat]);
+
   // const catLink = `https://http.cat/${statusCode}`;
 
   const renderImageCat = () => {
@@ -67,7 +69,7 @@ export function CatsCode() {
       <>
         {statusCode ? (
           <>
-            {true ? (
+            {false ? (
               <Box
                 sx={{
                   display: "flex",
@@ -93,7 +95,7 @@ export function CatsCode() {
                 </Typography>
               </Box>
             ) : (
-              "imagem do gato"
+              <img src={catLink} alt="Testando" />
             )}
           </>
         ) : (
