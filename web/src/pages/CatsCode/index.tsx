@@ -7,10 +7,16 @@ import { findOneCat } from "../../services/cats";
 import WelcomeCat from "/welcome_cat.svg";
 import CatNotFound from "/cat_not_found.svg";
 import Typography from "@mui/material/Typography";
+import { GREEN_100, GREEN_500 } from "../../utils/colors";
+import { CircularProgress } from "@mui/material";
+import { useStyles } from "./styles";
+
 // import Buffer from "buffer";
 
 export function CatsCode() {
   const [statusCode, setStatusCode] = useState<number | null>(null);
+
+  const styles = useStyles();
 
   const textRef = useRef<HTMLInputElement>(null);
 
@@ -19,31 +25,31 @@ export function CatsCode() {
     isLoading,
     isError,
   } = useQuery(["findOneCat", statusCode], async () => {
-    if (statusCode == undefined) {
-      // throw new Error("StatusCode is null");
-      return;
+    try {
+      if (statusCode == undefined) {
+        return;
+      }
+
+      const { data: arrayBuffer } = await findOneCat(statusCode);
+
+      const arrayBufferView = new Uint8Array(arrayBuffer);
+      const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+      const urlCreator = window.URL || window.webkitURL;
+      const imageUrl = urlCreator.createObjectURL(blob);
+
+      console.log("imageUrl", imageUrl);
+
+      return imageUrl;
+    } catch (error) {
+      throw new Error("error");
     }
-
-    const { data: arrayBuffer } = await findOneCat(statusCode);
-
-    // console.log("queryCat - arrayBuffer", arrayBuffer);
-
-    // const convertedArrayBuffer = Buffer.from(response.data).toString("base64");
-
-    const arrayBufferView = new Uint8Array(arrayBuffer);
-    const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-    const urlCreator = window.URL || window.webkitURL;
-    const imageUrl = urlCreator.createObjectURL(blob);
-
-    console.log("imageUrl", imageUrl);
-
-    return imageUrl;
   });
+
+  console.log("isError", isError);
 
   const submitForm = (event: any) => {
     event.preventDefault();
-    // queryCat(statusCode!);
-    // test();
+
     if (textRef.current != null) {
       console.log(textRef.current!.value);
       setStatusCode(Number(textRef.current!.value));
@@ -58,44 +64,56 @@ export function CatsCode() {
     if (queryCat != undefined) {
       return queryCat;
     }
-
-    // console.log("convertedArrayBuffer", convertedArrayBuffer);
   }, [queryCat]);
-
-  // const catLink = `https://http.cat/${statusCode}`;
 
   const renderImageCat = () => {
     return (
       <>
         {statusCode ? (
           <>
-            {false ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={CatNotFound}
-                  alt="Image to error request"
-                  style={{ maxWidth: "60%" }}
-                />
+            {isError ? (
+              <>
+                {isLoading ? (
+                  <CircularProgress size={35} />
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={CatNotFound}
+                      alt="Image to error request"
+                      style={{ maxWidth: "60%" }}
+                    />
 
-                <Typography variant="h3" color={"primary"}>
-                  Error 404
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color={"text.secondary"}
-                  fontWeight={600}
-                >
-                  Cat image not found
-                </Typography>
-              </Box>
+                    <Typography variant="h3" sx={{ color: GREEN_500 }}>
+                      Error 404
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color={"text.secondary"}
+                      fontWeight={600}
+                    >
+                      Cat image not found
+                    </Typography>
+                  </Box>
+                )}
+              </>
             ) : (
-              <img src={catLink} alt="Testando" />
+              <>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <img
+                    src={catLink}
+                    className={styles.catImage}
+                    alt="A fun image of a cat"
+                  />
+                )}
+              </>
             )}
           </>
         ) : (
@@ -112,7 +130,7 @@ export function CatsCode() {
               style={{ maxWidth: "60%" }}
             />
 
-            <Typography variant="h3" color={"primary"}>
+            <Typography variant="h4" color={"primary"} marginTop={3}>
               Select a valid status code
             </Typography>
             <Typography
