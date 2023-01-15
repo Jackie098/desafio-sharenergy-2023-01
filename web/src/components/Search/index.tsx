@@ -55,13 +55,23 @@ export function Search({
   };
 
   return (
-    <Box component="form" onSubmit={submitForm}>
+    <Box
+      component="form"
+      onSubmit={submitForm}
+      display="flex"
+      alignItems={"center"}
+    >
       <TextField
         inputRef={textRef}
         variant="outlined"
         label="Who are you looking for?"
+        sx={{
+          marginRight: "8px",
+        }}
       />
-      <Button type="submit">Search</Button>
+      <Button type="submit" variant="contained" size="large">
+        Search
+      </Button>
     </Box>
   );
 }

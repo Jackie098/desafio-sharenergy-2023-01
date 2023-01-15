@@ -21,6 +21,19 @@ export const configureDesignSystem = createTheme({
       letterSpacing: "0.05em",
     },
   },
+
+  components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          maxHeight: "45px",
+        },
+        input: {
+          padding: 0,
+        },
+      },
+    },
+  },
   shape: { borderRadius: 4 },
   spacing: 8,
 });
