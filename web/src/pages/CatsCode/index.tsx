@@ -7,12 +7,11 @@ import { findOneCat } from "../../services/cats";
 import WelcomeCat from "/welcome_cat.svg";
 import CatNotFound from "/cat_not_found.svg";
 import Typography from "@mui/material/Typography";
-import { GREEN_100, GREEN_500 } from "../../utils/colors";
+import { GREEN_500 } from "../../utils/colors";
 import { CircularProgress } from "@mui/material";
 import { useStyles } from "./styles";
 
-// import Buffer from "buffer";
-
+// TODO - CAT: Uncouple this code
 export function CatsCode() {
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
@@ -107,6 +106,7 @@ export function CatsCode() {
                 {isLoading ? (
                   <CircularProgress />
                 ) : (
+                  // TODO - CAT: Add a image cat above the cat status image
                   <img
                     src={catLink}
                     className={styles.catImage}
