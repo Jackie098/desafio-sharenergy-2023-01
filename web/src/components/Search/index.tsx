@@ -35,14 +35,12 @@ export function Search({
     );
   };
 
+  // BUG: Bug after search results and reset without value, the
+  // Infinite Scrolls doesnt work
   const submitForm = (event: any) => {
     event.preventDefault();
 
     if (textRef.current != null || textRef.current!.value !== "") {
-      // if (textRef.current.value !== "") {
-      //   setPage(1);
-      // }
-
       console.log(textRef.current!.value);
       const comparator = textRef.current!.value;
 
