@@ -11,5 +11,4 @@ export const catApi = axios.create({
 
 export const dogApi = axios.create({
   baseURL: "https://random.dog/",
-  // responseType: "arraybuffer",
 });

@@ -8,6 +8,7 @@ import { GREEN_500, PRIMARY } from "../../utils/colors";
 import { CircularProgress, Typography } from "@mui/material";
 import { useState } from "react";
 
+// TODO dog: move helper functions to another file
 export function RandomDogs() {
   const queryClient = useQueryClient();
 

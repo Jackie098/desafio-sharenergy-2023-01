@@ -21,7 +21,6 @@ export function Header({ children }: HeaderProps) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        // justifyContent: "center",
         alignItems: "center",
       }}
     >
@@ -35,7 +34,6 @@ export function Header({ children }: HeaderProps) {
         sx={{
           padding: theme.spacing(0, 2, 0, 2),
         }}
-        // backgroundColor={GREEN_500}
       >
         <Box display="flex" alignItems="center">
           <img

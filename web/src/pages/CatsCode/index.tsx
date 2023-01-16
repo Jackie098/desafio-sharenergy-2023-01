@@ -159,7 +159,6 @@ export function CatsCode() {
           variant="outlined"
           type="number"
           label="Choose a status code"
-          // onChange={(event) => setStatusCode(Number(event.currentTarget.value))}
           sx={{
             marginRight: "8px",
           }}
@@ -168,13 +167,11 @@ export function CatsCode() {
           Search
         </Button>
       </Box>
-      {/* <img src={"https://http.cat/200"} alt="A cat by status code protocol" /> */}
 
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
-          // maxWidth: "500px !important",
           width: "100%",
           marginTop: "54px",
         }}

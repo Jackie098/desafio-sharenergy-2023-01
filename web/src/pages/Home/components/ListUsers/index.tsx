@@ -17,7 +17,6 @@ export function ListUsers({ users, setPage }: ListUsersProps) {
   const theme = useTheme();
 
   console.log("listUser - users", users);
-  // console.log("listUser - setPage", setPage);
 
   return (
     <InfiniteScroll

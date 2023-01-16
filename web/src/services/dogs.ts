@@ -6,7 +6,6 @@ export type RandomDog = {
   url: "https://random.dog/2e5569d8-ac6a-4d4c-b6ef-9393f93dd0f6.jpg";
 };
 
-// woof.json?filter=mp4,webm,git
 export const randomDog = async (): Promise<RandomDog> => {
   const params = { filter: "mp4,webm,git" };
 
