@@ -8,3 +8,8 @@ export const catApi = axios.create({
   baseURL: "https://http.cat/",
   responseType: "arraybuffer",
 });
+
+export const dogApi = axios.create({
+  baseURL: "https://random.dog/",
+  // responseType: "arraybuffer",
+});
