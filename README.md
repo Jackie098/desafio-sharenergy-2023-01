@@ -8,22 +8,22 @@
       <!-- [] - Gerar um hash da senha, salvar no localStorage e quando "remember me" estiver true, traduzir o hash e colocar no campo de senha -->
 
 --> TELA HOME
-  [] - Deve haver um navbar com as opções das outras 3 telas
-  [] - Deve conter uma listagem de usuários gerada a partir da API [Random User Generator](https://randomuser.me/)
-  [] - Os itens devem possuir
+  [X] - Deve haver um navbar com as opções das outras 3 telas
+  [X] - Deve conter uma listagem de usuários gerada a partir da API [Random User Generator](https://randomuser.me/)
+  [X] - Os itens devem possuir
     - Foto do usuário
     - Nome completo
     - Email
     - username
     - idade
-  [] - Campo de buscar usuários por nome, email ou username
+  [X] - Campo de buscar usuários por nome, email ou username
 
 --> TELA CATS
-  [] - Buscar gatos por CODE http - [HTTP Cat](https://http.cat/)
-  [] - Exibir o gato 
+  [X] - Buscar gatos por CODE http - [HTTP Cat](https://http.cat/)
+  [X] - Exibir o gato 
   
 --> TELA DOGS
-  [] - Criar botão refresh para mudar o cachorro que está sendo exibido aleatoriamente
+  [X] - Criar botão refresh para mudar o cachorro que está sendo exibido aleatoriamente
 
 --> TELA USERS
   [] - Exibir lista de clientes
