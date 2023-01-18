@@ -10,7 +10,6 @@ class CreateUserController {
 
     console.log("controller", request.body);
 
-    // TODO: Validation with zed or yup
     try {
       this.createUserUseCase.execute(newUser);
 

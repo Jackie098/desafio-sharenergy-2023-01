@@ -16,6 +16,7 @@ interface IUserRepository {
     email,
     isAdmin,
   }: ICreateUserDTO): Promise<IUser>;
+  findOne(username: string, email: string): Promise<IUser | null>;
   delete(id: number): void;
 }
 

@@ -25,6 +25,14 @@ class UserRepositoryMongo implements IUserRepository {
     return user;
   }
 
+  async findOne(username: string, email: string): Promise<IUser | null> {
+    const userAlreadyExists = await UserModel.findOne({
+      $or: [{ username }, { email }],
+    });
+
+    return userAlreadyExists;
+  }
+
   delete(id: number): void {
     throw new Error("Method not implemented.");
   }
