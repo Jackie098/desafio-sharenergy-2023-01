@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+import { IHandledError } from "../../../../types/Error";
+import { ErrorHandler } from "../../../../utils/ErrorHandler";
 import { IUserRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
@@ -30,12 +32,22 @@ class CreateUserUseCase {
 
     if (!schema.isValid) {
       throw new Error(
-        JSON.stringify({ code: 404, error: "Schema validation error" })
+        ErrorHandler({
+          code: 400,
+          isHandled: true,
+          message: "The validationd does not match",
+        })
       );
     }
 
     if (await this.usersRepository.findOne(newUser.username, newUser.email)) {
-      throw new Error("User already exists!");
+      throw new Error(
+        ErrorHandler({
+          code: 400,
+          isHandled: true,
+          message: "User already exists",
+        })
+      );
     }
 
     this.usersRepository.create(newUser);
