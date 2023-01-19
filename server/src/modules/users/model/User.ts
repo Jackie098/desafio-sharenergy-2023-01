@@ -33,8 +33,11 @@ const UserSchema = new mongoose.Schema<IUser>({
     required: true,
     select: false,
   },
+
+  //BUG: bug is add att isAdmin in BD
   isAdmin: {
     type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
