@@ -8,5 +8,7 @@ export function ErrorHandler({
 }: IHandledError): string {
   const errorFactory = { code, isHandled, message, bodyError };
 
+  // console.log("Error Handler", JSON.stringify(errorFactory));
+
   return JSON.stringify(errorFactory);
 }

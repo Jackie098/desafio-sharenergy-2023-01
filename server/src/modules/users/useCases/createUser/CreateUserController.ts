@@ -1,22 +1,33 @@
 import { Request, Response } from "express";
+import { ResponseError } from "../../../../types/Error";
 import { ICreateUserDTO } from "../../repositories/IUsersRepository";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  handle(request: Request, response: Response): Response {
+  async handle(request: Request, response: Response): Promise<Response> {
     const newUser = <ICreateUserDTO>request.body;
 
-    console.log("controller", request.body);
-
     try {
-      this.createUserUseCase.execute(newUser);
+      await this.createUserUseCase.execute(newUser);
 
       return response.status(201).send();
-    } catch (err) {
-      console.log(err);
-      return response.status(500).json({ error: true, message: err });
+    } catch (err: any) {
+      const castError = <string>err.toString();
+
+      if (castError.includes("isHandled")) {
+        const slicedError = castError.replace("Error: ", "");
+
+        const objErr = JSON.parse(slicedError);
+
+        return response.status(objErr?.code).json({
+          message: objErr.message,
+          bodyError: objErr,
+        } as ResponseError);
+      } else {
+        return response.status(500).send("Error does not handled"); //{ message: err }
+      }
     }
   }
 }

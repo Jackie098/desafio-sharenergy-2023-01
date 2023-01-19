@@ -4,3 +4,5 @@ export type IHandledError = {
   message: string;
   bodyError?: any;
 };
+
+export type ResponseError = Omit<IHandledError, "code" | "isHandled">;

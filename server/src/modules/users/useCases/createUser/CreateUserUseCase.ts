@@ -30,17 +30,22 @@ class CreateUserUseCase {
       isAdmin: Yup.boolean(),
     });
 
-    if (!schema.isValid) {
+    if (!schema.isValidSync(newUser)) {
       throw new Error(
         ErrorHandler({
           code: 400,
           isHandled: true,
-          message: "The validationd does not match",
+          message: "The validation does not match",
         })
       );
     }
 
-    if (await this.usersRepository.findOne(newUser.username, newUser.email)) {
+    const userAlreadyExists = await this.usersRepository.findOne(
+      newUser.username,
+      newUser.email
+    );
+
+    if (userAlreadyExists) {
       throw new Error(
         ErrorHandler({
           code: 400,
@@ -50,7 +55,17 @@ class CreateUserUseCase {
       );
     }
 
-    this.usersRepository.create(newUser);
+    try {
+      await this.usersRepository.create(newUser);
+    } catch (error) {
+      throw new Error(
+        ErrorHandler({
+          code: 500,
+          isHandled: true,
+          message: "Error while creating a new user",
+        })
+      );
+    }
   }
 }
 

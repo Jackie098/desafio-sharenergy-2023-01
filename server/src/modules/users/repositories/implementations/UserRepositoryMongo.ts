@@ -9,8 +9,6 @@ class UserRepositoryMongo implements IUserRepository {
     email,
     isAdmin,
   }: ICreateUserDTO): Promise<IUser> {
-    console.log("repository", name, username, password, email);
-
     const userFactory = {
       name,
       username,
@@ -20,17 +18,16 @@ class UserRepositoryMongo implements IUserRepository {
     };
 
     const user = await UserModel.create(userFactory);
-    console.log(user);
 
     return user;
   }
 
   async findOne(username: string, email: string): Promise<IUser | null> {
-    const userAlreadyExists = await UserModel.findOne({
+    const user = await UserModel.findOne({
       $or: [{ username }, { email }],
     });
 
-    return userAlreadyExists;
+    return user;
   }
 
   delete(id: number): void {
