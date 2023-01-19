@@ -1,3 +1,4 @@
+import { UpdateCustomer } from "../../../types/Customer";
 import { ICustomer } from "../model/Customer";
 
 interface ICreateCustomerDTO {
@@ -15,7 +16,7 @@ interface ICustomerRepository {
   list(): Promise<ICustomer[] | []>;
   findOne(email: string, cpf: string): Promise<ICustomer | null>;
   findOneById(id: string): Promise<ICustomer | null>;
-  update(customer: ICustomer): void;
+  update(id: string, customer: UpdateCustomer): void;
   delete(id: string): void;
 }
 

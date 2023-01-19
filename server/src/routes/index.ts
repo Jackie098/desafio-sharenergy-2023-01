@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { customersRoutes } from "./customers.routes copy";
+import { customersRoutes } from "./customers.routes";
 import { usersRoutes } from "./users.routes";
 
 const router = Router();

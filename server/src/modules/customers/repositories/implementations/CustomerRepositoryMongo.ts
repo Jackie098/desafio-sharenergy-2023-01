@@ -1,3 +1,4 @@
+import { UpdateCustomer } from "../../../../types/Customer";
 import { CustomerModel, ICustomer } from "../../model/Customer";
 import {
   ICreateCustomerDTO,
@@ -29,8 +30,8 @@ class CustomerRepositoryMongo implements ICustomerRepository {
     return customer;
   }
 
-  async update(customer: ICustomer): Promise<void> {
-    await CustomerModel.updateOne({ _id: customer._id }, customer);
+  async update(id: string, customer: UpdateCustomer): Promise<any> {
+    return await CustomerModel.updateOne({ _id: id }, customer);
   }
 
   async delete(id: string): Promise<void> {
