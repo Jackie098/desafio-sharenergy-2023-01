@@ -21,6 +21,14 @@ class CustomerRepositoryMongo implements ICustomerRepository {
     return customer;
   }
 
+  async findOneById(id: string): Promise<ICustomer | null> {
+    const customer = await CustomerModel.findOne({
+      _id: id,
+    });
+
+    return customer;
+  }
+
   async update(customer: ICustomer): Promise<void> {
     await CustomerModel.updateOne({ _id: customer._id }, customer);
   }
