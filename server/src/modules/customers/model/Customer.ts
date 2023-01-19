@@ -5,10 +5,10 @@ export interface ICustomer {
   name: string;
   email: string;
   cellphone: string;
-  street: string;
-  district: string;
-  houseNumber: number;
   cpf: string;
+  street?: string;
+  district?: string;
+  houseNumber?: number;
 }
 
 const CustomerSchema = new mongoose.Schema<ICustomer>({
@@ -33,15 +33,12 @@ const CustomerSchema = new mongoose.Schema<ICustomer>({
   },
   street: {
     type: String,
-    required: true,
   },
   district: {
     type: String,
-    required: true,
   },
   houseNumber: {
     type: Number,
-    required: true,
   },
 });
 
