@@ -8,8 +8,6 @@ class DeleteCustomerController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = <{ id: string }>request.params;
 
-    console.log("id", id);
-
     try {
       await this.deleteCustomerUseCase.execute(id);
 

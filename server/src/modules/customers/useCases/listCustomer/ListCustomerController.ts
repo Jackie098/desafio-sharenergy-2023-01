@@ -9,7 +9,7 @@ class ListCustomerController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const customers = await this.listCustomerUseCase.execute();
-      console.log(customers);
+
       return response.status(200).json(customers);
     } catch (err: any) {
       const castError = <string>err.toString();

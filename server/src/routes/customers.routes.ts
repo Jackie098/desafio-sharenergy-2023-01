@@ -18,6 +18,10 @@ customersRoutes.put("/:id", (request, response) => {
   return updateCustomerController.handle(request, response);
 });
 
+// customersRoutes.get("/find", (request, response) => {
+//   return response.json({ message: "findOne" });
+// });
+
 customersRoutes.delete("/:id", (request, response) => {
   return deleteCustomerController.handle(request, response);
 });
