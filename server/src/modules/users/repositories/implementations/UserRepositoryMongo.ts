@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+import { authConfig } from "../../../../config/jwt";
+
 import { IUser, UserModel } from "../../model/User";
 import { ICreateUserDTO, IUserRepository } from "../IUsersRepository";
 
@@ -25,9 +28,27 @@ class UserRepositoryMongo implements IUserRepository {
   async findOne(username: string, email: string): Promise<IUser | null> {
     const user = await UserModel.findOne({
       $or: [{ username }, { email }],
-    });
+    }).select("+password");
 
     return user;
+  }
+
+  authenticate(user: IUser): string {
+    const token = jwt.sign(
+      {
+        id: user._id,
+        username: user.username,
+        isAdmin: user.isAdmin,
+        email: user.email,
+      },
+      authConfig.secret,
+      {
+        expiresIn: authConfig.expiresIn,
+        subject: authConfig.secret,
+      }
+    );
+
+    return token;
   }
 
   delete(id: number): void {

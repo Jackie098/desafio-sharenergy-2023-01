@@ -1,11 +1,13 @@
 import mongoose from "../../../database";
 import bcryptjs from "bcryptjs";
+import { ObjectId } from "mongoose";
 
 export interface IUser {
+  _id: ObjectId;
   name: string;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   isAdmin?: boolean;
   createdAt: Date;
 }
@@ -41,7 +43,7 @@ const UserSchema = new mongoose.Schema<IUser>({
 });
 
 UserSchema.pre("save", async function (next) {
-  const hash = await bcryptjs.hash(this.password, 10);
+  const hash = await bcryptjs.hash(this.password!, 10);
 
   this.password = hash;
 });
