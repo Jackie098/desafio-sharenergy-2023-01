@@ -12,8 +12,6 @@ import Container from "@mui/material/Container";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-import { createTheme } from "@mui/material/styles";
-
 import logoImage from "/logo_share_energy.png";
 import { SignInCredentials } from "../../types/session";
 import FormControl from "@mui/material/FormControl";
@@ -47,8 +45,6 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-
-const theme = createTheme();
 
 export function SignIn() {
   const { signIn } = useAuth();

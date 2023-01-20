@@ -1,4 +1,7 @@
+export const GRAY_50 = "#f4f8f87d";
+export const GRAY_100 = "#F3F9F9";
 export const GRAY_200 = "#F9F9F9";
+export const GRAY_350 = "#e9e9E9";
 export const GRAY_500 = "#B0B0B0";
 export const GRAY_700 = "#616161";
 export const GRAY_750 = "#595046";
