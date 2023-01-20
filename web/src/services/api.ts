@@ -12,3 +12,7 @@ export const catApi = axios.create({
 export const dogApi = axios.create({
   baseURL: "https://random.dog/",
 });
+
+export const customerApi = axios.create({
+  baseURL: "http://localhost:3333/",
+});

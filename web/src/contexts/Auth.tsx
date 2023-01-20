@@ -14,8 +14,14 @@ type AuthProviderProps = {
 
 export type AuthState = {
   // token: string;
-  user: { username: string; password: string };
-  isAdmin: boolean;
+  user: {
+    id: string;
+    username: string;
+    password: string;
+    isAdmin: boolean;
+    email: string;
+  };
+  token: string;
 };
 
 export type AuthContextData = {
@@ -41,19 +47,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = useCallback(async ({ username, password }: User) => {
     try {
-      const response = await signInService({ username, password });
+      const { user, token } = await signInService({ username, password });
 
-      const {
-        username: usernameResponse,
-        password: passwordResponse,
-        isAdmin,
-      } = response;
+      // const {
+      //   username: usernameResponse,
+      //   password: passwordResponse,
+      //   isAdmin,
+      // } = response;
 
-      localStorage.setItem("@sharenergy:user", JSON.stringify(response));
+      localStorage.setItem("@sharenergy:user", JSON.stringify(user));
+      localStorage.setItem("@sharenergy:token", JSON.stringify(token));
 
       setData({
-        user: { username: usernameResponse, password: passwordResponse },
-        isAdmin,
+        user,
+        token,
       });
     } catch (err) {
       signOut();
