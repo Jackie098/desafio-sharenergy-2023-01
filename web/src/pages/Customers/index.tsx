@@ -39,18 +39,31 @@ export function Customers() {
         // onSubmit={submitForm}
         display="flex"
         alignItems={"center"}
+        width="100%"
       >
         <TextField
           // inputRef={textRef}
           variant="outlined"
           type="number"
-          label="Choose a status code"
+          label="Search a customer"
           sx={{
             marginRight: "8px",
           }}
         />
         <Button type="submit" variant="contained" size="large">
           Search
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          sx={{
+            marginLeft: "16px",
+            background:
+              "linear-gradient(90deg, rgba(0,162,162,1) 0%, rgba(0,162,162,1) 13%, rgba(211,217,41,1) 100%)",
+          }}
+        >
+          Add new Customer
         </Button>
       </Box>
 
