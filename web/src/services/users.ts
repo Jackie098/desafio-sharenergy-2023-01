@@ -32,7 +32,5 @@ export const listUsers = async (
     params,
   });
 
-  console.log("in service", response.data);
-
   return response.data;
 };

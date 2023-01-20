@@ -3,6 +3,7 @@ import { number } from "yup";
 export type User = {
   username: string;
   password: string;
+  isRemember?: boolean;
 };
 
 export type Location = {

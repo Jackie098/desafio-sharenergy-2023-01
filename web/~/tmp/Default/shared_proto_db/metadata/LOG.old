@@ -1,2 +1,3 @@
-2023/01/19-21:14:36.411 13001 Creating DB /home/carlos/Documents/codes/personal/companies-tests/desafio-sharenergy-2023-01/web/~/tmp/Default/shared_proto_db/metadata since it was missing.
-2023/01/19-21:14:36.444 13001 Reusing MANIFEST /home/carlos/Documents/codes/personal/companies-tests/desafio-sharenergy-2023-01/web/~/tmp/Default/shared_proto_db/metadata/MANIFEST-000001
+2023/01/19-23:50:33.808 1872d Reusing MANIFEST /home/carlos/Documents/codes/personal/companies-tests/desafio-sharenergy-2023-01/web/~/tmp/Default/shared_proto_db/metadata/MANIFEST-000001
+2023/01/19-23:50:33.809 1872d Recovering log #3
+2023/01/19-23:50:33.809 1872d Reusing old log /home/carlos/Documents/codes/personal/companies-tests/desafio-sharenergy-2023-01/web/~/tmp/Default/shared_proto_db/metadata/000003.log 

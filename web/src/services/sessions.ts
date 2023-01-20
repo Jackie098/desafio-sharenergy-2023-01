@@ -24,8 +24,6 @@ export const signInService = async ({
 
   const user = jwtDecode(token);
 
-  console.log("signIn service - login", token);
-
   return {
     user,
     token,

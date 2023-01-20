@@ -13,7 +13,6 @@ type AuthProviderProps = {
 };
 
 export type AuthState = {
-  // token: string;
   user: {
     id: string;
     username: string;
@@ -37,48 +36,67 @@ export const AuthContext = createContext<AuthContextData>(
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>({} as AuthState);
+  const [isRemember, setIsRemember] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const signOut = useCallback(async () => {
     setData({} as AuthState);
 
     localStorage.clear();
+    sessionStorage.clear();
   }, []);
 
-  const signIn = useCallback(async ({ username, password }: User) => {
-    try {
-      const { user, token } = await signInService({ username, password });
+  const signIn = useCallback(
+    async ({ username, password, isRemember }: User) => {
+      try {
+        setIsRemember(isRemember!);
 
-      // const {
-      //   username: usernameResponse,
-      //   password: passwordResponse,
-      //   isAdmin,
-      // } = response;
+        console.log("signIn - isRemember", isRemember);
+        const { user, token } = await signInService({ username, password });
 
-      localStorage.setItem("@sharenergy:token", JSON.stringify(token));
-      localStorage.setItem("@sharenergy:user", JSON.stringify(user));
+        if (isRemember) {
+          localStorage.setItem("@sharenergy:token", JSON.stringify(token));
+          localStorage.setItem(
+            "@sharenergy:user",
+            JSON.stringify({ ...user, isRemember })
+          );
+        } else {
+          sessionStorage.setItem("@sharenergy:token", JSON.stringify(token));
+          sessionStorage.setItem(
+            "@sharenergy:user",
+            JSON.stringify({ ...user, isRemember })
+          );
+        }
 
-      setData({
-        user,
-        token,
-      });
-    } catch (err) {
-      signOut();
+        setData({
+          user,
+          token,
+        });
+      } catch (err) {
+        signOut();
 
-      alert("User doesnt exists");
-    }
-  }, []);
+        alert("User doesnt exists");
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     try {
       const localToken = localStorage.getItem("@sharenergy:token");
       const localUser = localStorage.getItem("@sharenergy:user");
 
+      const sessionToken = sessionStorage.getItem("@sharenergy:token");
+      const sessionUser = sessionStorage.getItem("@sharenergy:user");
+
       if (localToken && localUser) {
         const parsedUser = JSON.parse(localUser);
-        // const parsedToken = JSON.parse(localUser);
 
         setData({ user: parsedUser, token: localToken });
+      } else if (sessionToken && sessionUser) {
+        const parsedUser = JSON.parse(sessionUser);
+
+        setData({ user: parsedUser, token: sessionToken });
       }
     } catch (error) {
       signOut();
