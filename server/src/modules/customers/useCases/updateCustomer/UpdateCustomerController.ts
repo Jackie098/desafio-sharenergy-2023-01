@@ -13,7 +13,7 @@ class UpdateCustomerController {
     try {
       await this.updateCustomerUseCase.execute(updateCustomer, id);
 
-      return response.status(204).send();
+      return response.status(200).send();
     } catch (err: any) {
       const castError = <string>err.toString();
 
