@@ -6,13 +6,15 @@ import { GRAY_50, GRAY_700 } from "../../../../utils/colors";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useAuth } from "../../../../hooks/useAuth";
 
 type ListItemProps = {
   id: number;
   customer: Customer;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setTypeModal: React.Dispatch<React.SetStateAction<"create" | "update">>;
-  setCustomerToUpdate: React.Dispatch<React.SetStateAction<Customer>>;
+  setSelectedCustomer: React.Dispatch<React.SetStateAction<Customer>>;
+  onDelete: (id: string, token: string) => void;
 };
 
 export function ListItem({
@@ -20,8 +22,12 @@ export function ListItem({
   id,
   setOpenModal,
   setTypeModal,
-  setCustomerToUpdate,
+  setSelectedCustomer,
+  onDelete,
 }: ListItemProps) {
+  const { getToken } = useAuth();
+  const token = getToken();
+
   return (
     <Box
       sx={{
@@ -57,14 +63,20 @@ export function ListItem({
       >
         <Button
           onClick={() => {
-            setCustomerToUpdate(customer);
+            setSelectedCustomer(customer);
             setTypeModal("update");
             setOpenModal(true);
           }}
         >
           <EditIcon />
         </Button>
-        <Button color="error">
+        <Button
+          color="error"
+          onClick={() => {
+            setSelectedCustomer(customer);
+            onDelete(customer._id!, token!);
+          }}
+        >
           <DeleteOutlineIcon color={"error"} />
         </Button>
       </Box>

@@ -45,3 +45,18 @@ export const updateCustomer = async (
 
   return data;
 };
+
+export const deleteCustomer = async (
+  { _id }: Customer,
+  token: string
+): Promise<any> => {
+  console.log("customer._id", _id);
+
+  const { data } = await customerApi.delete(`/customers/${_id}`, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+
+  console.log("delete customer", data);
+
+  return data;
+};

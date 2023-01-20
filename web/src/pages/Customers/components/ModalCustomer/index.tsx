@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Customer, RequestCustomer } from "../../../../types/customers";
 import * as Yup from "yup";
 import Button from "@mui/material/Button";
@@ -66,14 +66,20 @@ export function ModalCustomer({
   const INITIAL_FORMIK_DATA: Customer = useMemo(() => {
     console.log("initial_formik - data", data);
 
+    let inititalDatas = {} as Customer;
+
+    if (type === "update") {
+      inititalDatas = data!;
+    }
+
     return {
-      name: data?.name || undefined,
-      email: data?.email || undefined,
-      cellphone: data?.cellphone || undefined,
-      cpf: data?.cpf || undefined,
-      street: data?.street || undefined,
-      district: data?.district || undefined,
-      houseNumber: data?.houseNumber || undefined,
+      name: inititalDatas?.name || "",
+      email: inititalDatas?.email || "",
+      cellphone: inititalDatas?.cellphone || "",
+      cpf: inititalDatas?.cpf || "",
+      street: inititalDatas?.street || "",
+      district: inititalDatas?.district || "",
+      houseNumber: inititalDatas?.houseNumber || 1,
     };
   }, [data]);
 
@@ -118,6 +124,12 @@ export function ModalCustomer({
     formik.resetForm();
     onClose();
   };
+
+  useEffect(() => {
+    if (type === "create") {
+      formik.resetForm();
+    }
+  }, [type]);
 
   return (
     <Dialog
@@ -166,7 +178,6 @@ export function ModalCustomer({
             />
 
             <TextField
-              data-testid="txf-acc-settings-update-store-wpp"
               id="outlined-basic"
               label="Email"
               placeholder="Email"
@@ -191,7 +202,6 @@ export function ModalCustomer({
               }}
             >
               <TextField
-                data-testid="txf-acc-settings-update-store-cep"
                 id="txf-cep"
                 name="cellphone"
                 label="Cellphone"
@@ -210,7 +220,6 @@ export function ModalCustomer({
                 }}
               />
               <TextField
-                data-testid="txf-acc-settings-update-store-uf"
                 id="txf-uf"
                 name="cpf"
                 label="CPF"
@@ -229,7 +238,6 @@ export function ModalCustomer({
             </Box>
 
             <TextField
-              data-testid="txf-acc-settings-update-store-address"
               id="outlined-basic"
               label="Street"
               placeholder="Street"
@@ -247,7 +255,6 @@ export function ModalCustomer({
             />
             <Box sx={{ display: "flex", flexDirection: "row", gap: "16px" }}>
               <TextField
-                data-testid="txf-acc-settings-update-store-district"
                 id="outlined-basic"
                 label="District"
                 placeholder="District"
@@ -262,7 +269,6 @@ export function ModalCustomer({
                 }}
               />
               <TextField
-                data-testid="txf-acc-settings-update-store-address-number"
                 value={formik.values.houseNumber}
                 error={Boolean(formik.errors.houseNumber)}
                 helperText={
@@ -288,11 +294,7 @@ export function ModalCustomer({
                 marginTop: "16px",
               }}
             >
-              <Button
-                data-testid="btt-acc-settings-update-close-form"
-                onClick={() => handleClose()}
-                sx={{ color: "#616161" }}
-              >
+              <Button onClick={() => handleClose()} sx={{ color: "#616161" }}>
                 Cancelar
               </Button>
 

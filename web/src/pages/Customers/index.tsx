@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "react-query";
 import { useAuth } from "../../hooks/useAuth";
 import {
   createCustomer,
+  deleteCustomer,
   listCustomers,
   updateCustomer,
 } from "../../services/customers";
@@ -18,7 +19,7 @@ import { ModalCustomer } from "./components/ModalCustomer";
 export function Customers() {
   const { getToken } = useAuth();
 
-  const [customerToUpdate, setCustomerToUpdate] = useState<Customer>(
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer>(
     {} as Customer
   );
   const [openModel, setOpenModel] = useState(false);
@@ -69,6 +70,21 @@ export function Customers() {
     }
   );
 
+  const deleteCustomerMutation = useMutation(
+    async ({ customer, token }: { customer: Customer; token: string }) => {
+      return await deleteCustomer(customer, token);
+    },
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries("listCustomers");
+      },
+      onError: (err) => {
+        console.log("update store", err);
+        // toast
+      },
+    }
+  );
+
   const customers = useMemo(() => {
     if (queryCustomers) {
       return queryCustomers;
@@ -76,6 +92,13 @@ export function Customers() {
 
     return [];
   }, [queryCustomers]);
+
+  const handleDelete = async (id: string, token: string) => {
+    await deleteCustomerMutation.mutateAsync({
+      customer: { _id: id } as Customer,
+      token: token,
+    });
+  };
 
   const handleClose = () => {
     setOpenModel(false);
@@ -131,18 +154,20 @@ export function Customers() {
           <ListHeader />
           {customers.map((customer, index) => (
             <ListItem
+              key={`${index} - ${customer.name}`}
               customer={customer}
               id={index + 1}
               setOpenModal={setOpenModel}
               setTypeModal={setTypeModal}
-              setCustomerToUpdate={setCustomerToUpdate}
+              setSelectedCustomer={setSelectedCustomer}
+              onDelete={handleDelete}
             />
           ))}
         </Box>
       </Box>
 
       <ModalCustomer
-        data={customerToUpdate}
+        data={selectedCustomer}
         isOpen={openModel}
         type={typeModel}
         onClose={handleClose}
