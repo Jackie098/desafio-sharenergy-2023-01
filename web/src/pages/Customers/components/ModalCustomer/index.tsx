@@ -66,20 +66,14 @@ export function ModalCustomer({
   const INITIAL_FORMIK_DATA: Customer = useMemo(() => {
     console.log("initial_formik - data", data);
 
-    let inititalDatas = {} as Customer;
-
-    if (type === "update") {
-      inititalDatas = data!;
-    }
-
     return {
-      name: inititalDatas?.name || "",
-      email: inititalDatas?.email || "",
-      cellphone: inititalDatas?.cellphone || "",
-      cpf: inititalDatas?.cpf || "",
-      street: inititalDatas?.street || "",
-      district: inititalDatas?.district || "",
-      houseNumber: inititalDatas?.houseNumber || 1,
+      name: data?.name || undefined,
+      email: data?.email || undefined,
+      cellphone: data?.cellphone || undefined,
+      cpf: data?.cpf || undefined,
+      street: data?.street || undefined,
+      district: data?.district || undefined,
+      houseNumber: data?.houseNumber || undefined,
     };
   }, [data]);
 
@@ -126,10 +120,10 @@ export function ModalCustomer({
   };
 
   useEffect(() => {
-    if (type === "create") {
+    if (type === "create" && isOpen) {
       formik.resetForm();
     }
-  }, [type]);
+  }, [type, isOpen]);
 
   return (
     <Dialog
@@ -276,6 +270,11 @@ export function ModalCustomer({
                   formik.errors.houseNumber
                 }
                 onChange={({ target: { value } }) => {
+                  if (value === "") {
+                    formik.setFieldValue("houseNumber", null);
+                    return;
+                  }
+
                   formik.setFieldValue("houseNumber", value);
                 }}
                 label="House Number"

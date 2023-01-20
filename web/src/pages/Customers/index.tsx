@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useAuth } from "../../hooks/useAuth";
@@ -107,6 +108,10 @@ export function Customers() {
   return (
     <>
       <Box>
+        <Typography variant="h4" color="primary" align="center">
+          Customers List
+        </Typography>
+
         <Box
           component="form"
           // onSubmit={submitForm}
@@ -114,7 +119,7 @@ export function Customers() {
           alignItems={"center"}
           width="100%"
         >
-          <TextField
+          {/* <TextField
             // inputRef={textRef}
             variant="outlined"
             type="number"
@@ -125,7 +130,7 @@ export function Customers() {
           />
           <Button type="submit" variant="contained" size="large">
             Search
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             size="large"
