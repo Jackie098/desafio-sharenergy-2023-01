@@ -1,9 +1,15 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { GRAY_50 } from "../../../../utils/colors";
+import { Customer } from "../../../../types/customers";
+import { BLACK, GRAY_50, GRAY_700 } from "../../../../utils/colors";
 
-export function ListItem() {
+type ListItemProps = {
+  id: number;
+  customer: Customer;
+};
+
+export function ListItem({ customer, id }: ListItemProps) {
   return (
     <Box
       sx={{
@@ -20,14 +26,14 @@ export function ListItem() {
         },
       }}
     >
-      <Typography color={"primary"} fontWeight={700}>
-        ID
+      <Typography fontWeight={500} sx={{ color: GRAY_700 }}>
+        {id}
       </Typography>
-      <Typography color={"primary"} fontWeight={700}>
-        Name
+      <Typography color={"primary"} fontWeight={400}>
+        {customer.name}
       </Typography>
-      <Typography color={"primary"} fontWeight={700}>
-        CPF
+      <Typography color={"primary"} fontWeight={400}>
+        {customer.cpf}
       </Typography>
 
       <Box

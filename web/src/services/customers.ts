@@ -1,3 +1,4 @@
+import { Customer } from "../types/customers";
 import { customerApi } from "./api";
 
 export const listCustomers = async (token: string) => {
@@ -9,5 +10,5 @@ export const listCustomers = async (token: string) => {
 
   console.log("list customers", data);
 
-  return data;
+  return data as Customer[];
 };

@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/useAuth";
 import { listCustomers } from "../../services/customers";
@@ -14,13 +15,22 @@ export function Customers() {
 
   const { data: queryCustomers } = useQuery(["listCustomers"], async () => {
     try {
-      const { data } = await listCustomers(token!);
+      const response = await listCustomers(token!);
 
-      console.log("useQuery - customers", data);
+      console.log("useQuery - customers", response);
+      return response;
     } catch (error) {
       console.log(error);
     }
   });
+
+  const customers = useMemo(() => {
+    if (queryCustomers) {
+      return queryCustomers;
+    }
+
+    return [];
+  }, [queryCustomers]);
 
   return (
     <Box>
@@ -53,7 +63,9 @@ export function Customers() {
         }}
       >
         <ListHeader />
-        <ListItem />
+        {customers.map((customer, index) => (
+          <ListItem customer={customer} id={index + 1} />
+        ))}
       </Box>
     </Box>
   );
