@@ -34,7 +34,7 @@ export function ListHeader() {
           alignItems: "center",
         }}
       >
-        <Button sx={{ color: GRAY_100 }}>Details</Button>
+        {/* <Button sx={{ color: GRAY_100 }}>Details</Button> */}
         <Button sx={{ color: GRAY_100 }}>Edit</Button>
         <Button sx={{ color: GRAY_100 }}>Delete</Button>
       </Box>
