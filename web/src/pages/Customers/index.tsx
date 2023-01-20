@@ -19,6 +19,7 @@ export function Customers() {
   const { getToken } = useAuth();
 
   const [openModel, setOpenModel] = useState(false);
+  const [typeModel, setTypeModal] = useState<"create" | "update">("create");
 
   const token = getToken();
 
@@ -49,6 +50,22 @@ export function Customers() {
       },
     }
   );
+
+  const updateCustomerMutation = useMutation(
+    async ({ customer, token }: { customer: Customer; token: string }) => {
+      return await updateCustomer(customer, token);
+    },
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries("listCustomers");
+      },
+      onError: (err) => {
+        console.log("update store", err);
+        // toast
+      },
+    }
+  );
+
   const customers = useMemo(() => {
     if (queryCustomers) {
       return queryCustomers;
@@ -86,7 +103,10 @@ export function Customers() {
           <Button
             variant="contained"
             size="large"
-            onClick={() => setOpenModel(true)}
+            onClick={() => {
+              setOpenModel(true);
+              setTypeModal("create");
+            }}
             sx={{
               marginLeft: "16px",
               background:
@@ -107,16 +127,22 @@ export function Customers() {
         >
           <ListHeader />
           {customers.map((customer, index) => (
-            <ListItem customer={customer} id={index + 1} />
+            <ListItem
+              customer={customer}
+              id={index + 1}
+              setOpenModal={setOpenModel}
+              setTypeModal={setTypeModal}
+            />
           ))}
         </Box>
       </Box>
 
       <NewCustomer
         isOpen={openModel}
-        type="create"
+        type={typeModel}
         onClose={handleClose}
         createCustomerMutation={createCustomerMutation}
+        updateCustomerMutation={updateCustomerMutation}
       />
     </>
   );

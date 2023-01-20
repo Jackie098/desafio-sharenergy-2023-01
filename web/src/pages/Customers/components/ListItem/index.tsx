@@ -11,9 +11,16 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 type ListItemProps = {
   id: number;
   customer: Customer;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setTypeModal: React.Dispatch<React.SetStateAction<"create" | "update">>;
 };
 
-export function ListItem({ customer, id }: ListItemProps) {
+export function ListItem({
+  customer,
+  id,
+  setOpenModal,
+  setTypeModal,
+}: ListItemProps) {
   return (
     <Box
       sx={{
@@ -50,7 +57,12 @@ export function ListItem({ customer, id }: ListItemProps) {
         {/* <Button>
           <FormatListBulletedIcon />
         </Button> */}
-        <Button>
+        <Button
+          onClick={() => {
+            setOpenModal(true);
+            setTypeModal("update");
+          }}
+        >
           <EditIcon />
         </Button>
         <Button color="error">

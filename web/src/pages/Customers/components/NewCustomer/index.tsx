@@ -77,7 +77,7 @@ export function NewCustomer({
 
         handleClose();
       } else if (type === "update") {
-        await createCustomerMutation.mutateAsync({
+        await updateCustomerMutation.mutateAsync({
           customer: datas,
           token: token!,
         });
