@@ -75,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       } catch (err) {
         signOut();
 
-        alert("User doesnt exists");
+        alert("User doesn't exists");
       }
     },
     []
