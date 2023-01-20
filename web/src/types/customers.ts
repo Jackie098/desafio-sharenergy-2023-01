@@ -1,10 +1,10 @@
 export type Customer = {
-  _id: string;
+  _id?: string;
   name: string;
   email: string;
-  cellphone: string;
+  cellphone?: string;
   cpf: string;
-  houseNumber: number;
-  district: string;
-  street: string;
+  houseNumber?: number;
+  district?: string;
+  street?: string;
 };

@@ -1,15 +1,18 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/useAuth";
 import { listCustomers } from "../../services/customers";
 import { ListHeader } from "./components/ListHeader";
 import { ListItem } from "./components/ListItem";
+import { NewCustomer } from "./components/NewCustomer";
 
 export function Customers() {
   const { getToken } = useAuth();
+
+  const [openModel, setOpenModel] = useState(false);
 
   const token = getToken();
 
@@ -32,54 +35,62 @@ export function Customers() {
     return [];
   }, [queryCustomers]);
 
+  const handleClose = () => {
+    setOpenModel(false);
+  };
+
   return (
-    <Box>
-      <Box
-        component="form"
-        // onSubmit={submitForm}
-        display="flex"
-        alignItems={"center"}
-        width="100%"
-      >
-        <TextField
-          // inputRef={textRef}
-          variant="outlined"
-          type="number"
-          label="Search a customer"
+    <>
+      <Box>
+        <Box
+          component="form"
+          // onSubmit={submitForm}
+          display="flex"
+          alignItems={"center"}
+          width="100%"
+        >
+          <TextField
+            // inputRef={textRef}
+            variant="outlined"
+            type="number"
+            label="Search a customer"
+            sx={{
+              marginRight: "8px",
+            }}
+          />
+          <Button type="submit" variant="contained" size="large">
+            Search
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => setOpenModel(true)}
+            sx={{
+              marginLeft: "16px",
+              background:
+                "linear-gradient(90deg, rgba(0,162,162,1) 0%, rgba(0,162,162,1) 13%, rgba(211,217,41,1) 100%)",
+            }}
+          >
+            Add new Customer
+          </Button>
+        </Box>
+
+        <Box
           sx={{
-            marginRight: "8px",
-          }}
-        />
-        <Button type="submit" variant="contained" size="large">
-          Search
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{
-            marginLeft: "16px",
-            background:
-              "linear-gradient(90deg, rgba(0,162,162,1) 0%, rgba(0,162,162,1) 13%, rgba(211,217,41,1) 100%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "32px",
           }}
         >
-          Add new Customer
-        </Button>
+          <ListHeader />
+          {customers.map((customer, index) => (
+            <ListItem customer={customer} id={index + 1} />
+          ))}
+        </Box>
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "32px",
-        }}
-      >
-        <ListHeader />
-        {customers.map((customer, index) => (
-          <ListItem customer={customer} id={index + 1} />
-        ))}
-      </Box>
-    </Box>
+      <NewCustomer isOpen={openModel} type="create" onClose={handleClose} />
+    </>
   );
 }
