@@ -41,7 +41,7 @@ class UserRepositoryMongo implements IUserRepository {
         isAdmin: user.isAdmin,
         email: user.email,
       },
-      authConfig.secret,
+      authConfig.secret!,
       {
         expiresIn: authConfig.expiresIn,
         subject: authConfig.secret,

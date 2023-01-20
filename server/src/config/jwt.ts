@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const authConfig = {
-  secret: "pa5ralele6p12ipedoQUadrado12DeU@QvaIhuuu45u",
+  secret: process.env.AUTH_CONFIG_SECRET,
   expiresIn: 24 * 60 * 60,
 };

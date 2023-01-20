@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 //mongoConnectionInformations
 const mongoConn = {
-  user: "jackie098",
-  password: "first-crud-with-mongo",
-  cluster: "first-crud-with-mongo",
+  user: process.env.BD_USER, //"jackie098",
+  password: process.env.BD_PASSWORD, //"first-crud-with-mongo",
+  cluster: process.env.BD_CLUSTER, //"first-crud-with-mongo",
 };
 
 // TODO: Implements a class here

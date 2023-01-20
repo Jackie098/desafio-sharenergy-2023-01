@@ -64,6 +64,8 @@ class AuthUserUseCase {
 
       return { token };
     } catch (error) {
+      console.log(error);
+
       throw new Error(
         ErrorHandler({
           code: 500,

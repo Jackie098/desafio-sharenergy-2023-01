@@ -19,7 +19,7 @@ export function CheckSession(
 
   console.log("token", token);
 
-  const userAuthenticated = jwt.verify(token, authConfig.secret);
+  const userAuthenticated = jwt.verify(token, authConfig.secret!);
 
   console.log(userAuthenticated);
 
