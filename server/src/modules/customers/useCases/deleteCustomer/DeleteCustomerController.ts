@@ -11,7 +11,7 @@ class DeleteCustomerController {
     try {
       await this.deleteCustomerUseCase.execute(id);
 
-      return response.status(204).send();
+      return response.status(200).send();
     } catch (err: any) {
       const castError = <string>err.toString();
 
