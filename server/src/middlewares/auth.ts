@@ -15,13 +15,26 @@ export function CheckSession(
     return response.status(401).json({ error: "Not authorized" });
   }
 
+  if (!authorization.includes("Bearer")) {
+    const userAuthenticated = jwt.verify(authorization, authConfig.secret!);
+
+    if (!userAuthenticated) {
+      return response.status(401).json({ message: "Token does not valid" });
+    }
+
+    next();
+  }
+
   const [, token] = authorization.split("Bearer ");
 
   console.log("token", token);
 
   const userAuthenticated = jwt.verify(token, authConfig.secret!);
 
-  console.log(userAuthenticated);
+  // console.log(userAuthenticated);
+  if (!userAuthenticated) {
+    return response.status(401).json({ message: "Token does not valid" });
+  }
 
   next();
 }

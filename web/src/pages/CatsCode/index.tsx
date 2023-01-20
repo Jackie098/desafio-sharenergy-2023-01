@@ -40,7 +40,7 @@ export function CatsCode() {
 
       return imageUrl;
     } catch (error) {
-      throw new Error("error");
+      console.log(error);
     }
   });
 

@@ -28,6 +28,7 @@ export type AuthContextData = {
   loading: boolean;
   signIn: (user: User) => Promise<void>;
   signOut: () => Promise<void>;
+  getToken: () => string | null | undefined;
 };
 
 export const AuthContext = createContext<AuthContextData>(
@@ -36,6 +37,7 @@ export const AuthContext = createContext<AuthContextData>(
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>({} as AuthState);
+  const [local, setLocal] = useState<"local" | "session">("session");
   const [loading, setLoading] = useState(true);
 
   const signOut = useCallback(async () => {
@@ -90,10 +92,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const parsedUser = JSON.parse(localUser);
 
         setData({ user: parsedUser, token: localToken });
+        setLocal("local");
       } else if (sessionToken && sessionUser) {
         const parsedUser = JSON.parse(sessionUser);
 
         setData({ user: parsedUser, token: sessionToken });
+        setLocal("session");
       }
     } catch (error) {
       signOut();
@@ -102,14 +106,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  const getToken = () => {
+    let token;
+
+    if (local === "local") {
+      token = JSON.parse(localStorage.getItem("@sharenergy:token")!);
+    } else if (local === "session") {
+      token = JSON.parse(sessionStorage.getItem("@sharenergy:user")!);
+    }
+
+    return token;
+  };
+
   const authContextData = useMemo(() => {
     return {
       loading,
       user: data.user,
       signIn,
       signOut,
+      getToken,
     };
-  }, [data, signIn, signOut, loading]);
+  }, [data, signIn, signOut, loading, getToken]);
 
   return (
     <AuthContext.Provider value={authContextData}>

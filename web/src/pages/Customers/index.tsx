@@ -1,10 +1,27 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useQuery } from "react-query";
+import { useAuth } from "../../hooks/useAuth";
+import { listCustomers } from "../../services/customers";
 import { ListHeader } from "./components/ListHeader";
 import { ListItem } from "./components/ListItem";
 
 export function Customers() {
+  const { getToken } = useAuth();
+
+  const token = getToken();
+
+  const { data: queryCustomers } = useQuery(["listCustomers"], async () => {
+    try {
+      const { data } = await listCustomers(token!);
+
+      console.log("useQuery - customers", data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return (
     <Box>
       <Box
