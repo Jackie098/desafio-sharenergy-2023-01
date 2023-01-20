@@ -36,7 +36,6 @@ export const AuthContext = createContext<AuthContextData>(
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>({} as AuthState);
-  const [isRemember, setIsRemember] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const signOut = useCallback(async () => {
@@ -49,8 +48,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback(
     async ({ username, password, isRemember }: User) => {
       try {
-        setIsRemember(isRemember!);
-
         console.log("signIn - isRemember", isRemember);
         const { user, token } = await signInService({ username, password });
 
