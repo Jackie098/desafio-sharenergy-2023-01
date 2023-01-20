@@ -55,8 +55,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       //   isAdmin,
       // } = response;
 
-      localStorage.setItem("@sharenergy:user", JSON.stringify(user));
       localStorage.setItem("@sharenergy:token", JSON.stringify(token));
+      localStorage.setItem("@sharenergy:user", JSON.stringify(user));
 
       setData({
         user,
@@ -69,6 +69,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      const localToken = localStorage.getItem("@sharenergy:token");
+      const localUser = localStorage.getItem("@sharenergy:user");
+
+      if (localToken && localUser) {
+        const parsedUser = JSON.parse(localUser);
+        // const parsedToken = JSON.parse(localUser);
+
+        setData({ user: parsedUser, token: localToken });
+      }
+    } catch (error) {
+      signOut();
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const authContextData = useMemo(() => {
     return {
       loading,
@@ -76,7 +94,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       signIn,
       signOut,
     };
-  }, [data, signIn, signOut]);
+  }, [data, signIn, signOut, loading]);
 
   return (
     <AuthContext.Provider value={authContextData}>
