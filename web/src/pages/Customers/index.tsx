@@ -2,9 +2,15 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useMemo, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useAuth } from "../../hooks/useAuth";
-import { listCustomers } from "../../services/customers";
+import {
+  createCustomer,
+  listCustomers,
+  updateCustomer,
+} from "../../services/customers";
+import { queryClient } from "../../services/queryClient";
+import { Customer, RequestCustomer } from "../../types/customers";
 import { ListHeader } from "./components/ListHeader";
 import { ListItem } from "./components/ListItem";
 import { NewCustomer } from "./components/NewCustomer";
@@ -27,6 +33,22 @@ export function Customers() {
     }
   });
 
+  const createCustomerMutation = useMutation(
+    async ({ customer, token }: RequestCustomer) => {
+      const result = await createCustomer({ customer, token });
+
+      return result;
+    },
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries("listCustomers");
+      },
+      onError: (err) => {
+        console.log("create store", err);
+        // toast
+      },
+    }
+  );
   const customers = useMemo(() => {
     if (queryCustomers) {
       return queryCustomers;
@@ -90,7 +112,12 @@ export function Customers() {
         </Box>
       </Box>
 
-      <NewCustomer isOpen={openModel} type="create" onClose={handleClose} />
+      <NewCustomer
+        isOpen={openModel}
+        type="create"
+        onClose={handleClose}
+        createCustomerMutation={createCustomerMutation}
+      />
     </>
   );
 }

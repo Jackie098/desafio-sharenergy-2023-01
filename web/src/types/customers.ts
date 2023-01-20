@@ -8,3 +8,8 @@ export type Customer = {
   district?: string;
   street?: string;
 };
+
+export type RequestCustomer = {
+  customer: Customer;
+  token: string;
+};
