@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import { UseMutationResult } from "react-query";
 import { useAuth } from "../../../../hooks/useAuth";
 
-type NewCustomerProps = {
+type ModalCustomerProps = {
   data?: Customer;
   type: "create" | "update";
   isOpen: boolean;
@@ -30,9 +30,9 @@ type NewCustomerProps = {
   >;
 };
 
-const CUSTOMER_VALIDATION = Yup.object().shape({
-  name: Yup.string().required().nullable(),
-  email: Yup.string().email().required().nullable(),
+const CREATE_CUSTOMER_VALIDATION = Yup.object().shape({
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
   cellphone: Yup.string().length(11, "Cellphone must have 11 chars").required(),
   cpf: Yup.string().length(11, "CPF must have 11 chars").required(),
   street: Yup.string().nullable(),
@@ -40,45 +40,56 @@ const CUSTOMER_VALIDATION = Yup.object().shape({
   houseNumber: Yup.number().min(1).nullable(),
 });
 
-export function NewCustomer({
+const UPDATE_CUSTOMER_VALIDATION = Yup.object().shape({
+  name: Yup.string().nullable(),
+  email: Yup.string().email().nullable(),
+  cellphone: Yup.string().length(11, "Cellphone must have 11 chars").nullable(),
+  cpf: Yup.string().length(11, "CPF must have 11 chars").nullable(),
+  street: Yup.string().nullable(),
+  district: Yup.string().nullable(),
+  houseNumber: Yup.number().min(1).nullable(),
+});
+
+export function ModalCustomer({
   data,
   type,
   isOpen,
   onClose,
   createCustomerMutation,
   updateCustomerMutation,
-}: NewCustomerProps) {
+}: ModalCustomerProps) {
   const { getToken } = useAuth();
 
   const token = getToken();
 
+  //@ts-ignore
   const INITIAL_FORMIK_DATA: Customer = useMemo(() => {
     console.log("initial_formik - data", data);
 
     return {
-      name: data?.name || "",
-      email: data?.email || "",
-      cellphone: data?.cellphone || "",
-      cpf: data?.cpf || "",
-      street: data?.street || "",
-      district: data?.district || "",
+      name: data?.name || undefined,
+      email: data?.email || undefined,
+      cellphone: data?.cellphone || undefined,
+      cpf: data?.cpf || undefined,
+      street: data?.street || undefined,
+      district: data?.district || undefined,
       houseNumber: data?.houseNumber || undefined,
     };
   }, [data]);
 
-  const handleSubmit = async (datas: Customer) => {
-    console.log(datas);
+  const handleSubmit = async (newValues: Customer) => {
+    console.log(newValues);
     try {
       if (type === "create") {
         await createCustomerMutation.mutateAsync({
-          customer: datas,
+          customer: newValues,
           token: token!,
         });
 
         handleClose();
       } else if (type === "update") {
         await updateCustomerMutation.mutateAsync({
-          customer: datas,
+          customer: { ...newValues, _id: data?._id },
           token: token!,
         });
 
@@ -92,7 +103,10 @@ export function NewCustomer({
   const formik = useFormik<Customer>({
     initialValues: INITIAL_FORMIK_DATA,
     isInitialValid: false,
-    validationSchema: CUSTOMER_VALIDATION,
+    validationSchema:
+      type === "create"
+        ? CREATE_CUSTOMER_VALIDATION
+        : UPDATE_CUSTOMER_VALIDATION,
     validateOnBlur: false,
     validateOnChange: false,
     validateOnMount: false,
@@ -101,7 +115,7 @@ export function NewCustomer({
   });
 
   const handleClose = () => {
-    // formik.resetForm();
+    formik.resetForm();
     onClose();
   };
 

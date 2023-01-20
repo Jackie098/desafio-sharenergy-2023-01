@@ -2,10 +2,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Customer } from "../../../../types/customers";
-import { GRAY_50, GRAY_700, RED_500 } from "../../../../utils/colors";
+import { GRAY_50, GRAY_700 } from "../../../../utils/colors";
 
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"; // details
-import EditIcon from "@mui/icons-material/Edit"; // edit
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 type ListItemProps = {
@@ -13,6 +12,7 @@ type ListItemProps = {
   customer: Customer;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setTypeModal: React.Dispatch<React.SetStateAction<"create" | "update">>;
+  setCustomerToUpdate: React.Dispatch<React.SetStateAction<Customer>>;
 };
 
 export function ListItem({
@@ -20,6 +20,7 @@ export function ListItem({
   id,
   setOpenModal,
   setTypeModal,
+  setCustomerToUpdate,
 }: ListItemProps) {
   return (
     <Box
@@ -54,13 +55,11 @@ export function ListItem({
           alignItems: "center",
         }}
       >
-        {/* <Button>
-          <FormatListBulletedIcon />
-        </Button> */}
         <Button
           onClick={() => {
-            setOpenModal(true);
+            setCustomerToUpdate(customer);
             setTypeModal("update");
+            setOpenModal(true);
           }}
         >
           <EditIcon />

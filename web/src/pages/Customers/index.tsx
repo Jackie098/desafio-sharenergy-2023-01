@@ -13,11 +13,14 @@ import { queryClient } from "../../services/queryClient";
 import { Customer, RequestCustomer } from "../../types/customers";
 import { ListHeader } from "./components/ListHeader";
 import { ListItem } from "./components/ListItem";
-import { NewCustomer } from "./components/NewCustomer";
+import { ModalCustomer } from "./components/ModalCustomer";
 
 export function Customers() {
   const { getToken } = useAuth();
 
+  const [customerToUpdate, setCustomerToUpdate] = useState<Customer>(
+    {} as Customer
+  );
   const [openModel, setOpenModel] = useState(false);
   const [typeModel, setTypeModal] = useState<"create" | "update">("create");
 
@@ -132,12 +135,14 @@ export function Customers() {
               id={index + 1}
               setOpenModal={setOpenModel}
               setTypeModal={setTypeModal}
+              setCustomerToUpdate={setCustomerToUpdate}
             />
           ))}
         </Box>
       </Box>
 
-      <NewCustomer
+      <ModalCustomer
+        data={customerToUpdate}
         isOpen={openModel}
         type={typeModel}
         onClose={handleClose}

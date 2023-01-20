@@ -31,9 +31,17 @@ export const updateCustomer = async (
   customer: Customer,
   token: string
 ): Promise<any> => {
-  const { data } = await customerApi.put(`/customers`, customer, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+  console.log("customer._id", customer._id);
+
+  const { data } = await customerApi.put(
+    `/customers/${customer._id}`,
+    customer,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  );
+
+  console.log("update customer", data);
 
   return data;
 };
