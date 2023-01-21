@@ -112,7 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (local === "local") {
       token = JSON.parse(localStorage.getItem("@sharenergy:token")!);
     } else if (local === "session") {
-      token = JSON.parse(sessionStorage.getItem("@sharenergy:user")!);
+      token = JSON.parse(sessionStorage.getItem("@sharenergy:token")!);
     }
 
     return token;
