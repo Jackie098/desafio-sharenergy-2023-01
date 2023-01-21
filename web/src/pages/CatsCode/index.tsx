@@ -41,6 +41,7 @@ export function CatsCode() {
       return imageUrl;
     } catch (error) {
       console.log(error);
+      throw new Error("error");
     }
   });
 

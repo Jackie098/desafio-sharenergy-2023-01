@@ -112,13 +112,7 @@ export function Customers() {
           Customers List
         </Typography>
 
-        <Box
-          component="form"
-          // onSubmit={submitForm}
-          display="flex"
-          alignItems={"center"}
-          width="100%"
-        >
+        <Box component="form" display="flex" alignItems={"center"} width="100%">
           {/* <TextField
             // inputRef={textRef}
             variant="outlined"
