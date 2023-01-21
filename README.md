@@ -40,3 +40,11 @@ Como o banco é remoto, você precisará das credenciais do mesmo.
  `yarn dev` ou `npm run dev`.
 
  Agora você deve ser capaz de utilizar a aplicação a partir da página de **LOGIN** através do navegador.
+
+ #### Vídeo Explicativo
+ - [Link do Vídeo](https://youtu.be/qwdyz3__T74)
+
+#### Autor
+Autor: Carlos Augusto Miranda Brandão
+LinkedIn: https://www.linkedin.com/in/carlos-augusto-brand%C3%A3o-243317183/
+Github: https://github.com/Jackie098
